@@ -16,6 +16,12 @@ class ReportParsingError(VigilenceException):
     def __init__(self, message):
         super(ReportParsingError, self).__init__(message, -2)
 
+class ConfigurationParsingError(VigilenceException):
+    """Raise when the vigilence configuration file contains errors.
+    """
+    def __init__(self, message):
+        super(ConfigurationParsingError, self).__init__(message, -3)
+
 class QualityViolationsDetected(VigilenceException):
     """Raised when vigilence detects quality violations.
     """

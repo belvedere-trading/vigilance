@@ -1,9 +1,9 @@
 """@defgroup vigilence vigilence
 """
 
-from logging import getLogger, StreamHandler
+import logging
 
-Log = getLogger(__name__)
-Log.addHandler(StreamHandler())
+Log = logging.getLogger(__name__)
+Log.addHandler(logging.StreamHandler())
 
 from vigilence.default_suites import * #pylint: disable=wildcard-import
