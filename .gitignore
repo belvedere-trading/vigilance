@@ -1,0 +1,19 @@
+# vim swap files
+*.swp
+
+# VS Code files
+.vscode/
+.noseids
+
+# Compiled Python files
+*.pyc
+
+# Build artifacts
+.coverage
+coverage.xml
+tests.xml
+build/
+dist/
+.eggs/
+vigilence.egg-info/
+htmlcov/

@@ -1,0 +1,13 @@
+constraints:
+  -
+    type: global
+    line: 60
+  -
+    type: ignore
+    paths:
+      - Hydra/Aether/AetherServer.py
+      - Hydra/HydraInstall.py
+  -
+    type: file
+    path: Hydra/Internal/HostInformationItems/.*
+    line: 0
