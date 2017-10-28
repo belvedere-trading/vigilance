@@ -82,7 +82,6 @@ class IgnoreFiles(Constraint):
 class ConstraintSuite(object):
     """Relates multiple constraints together into a constraint suite.
     """
-    # Types = {'line': LineCoverage, 'branch': BranchCoverage, 'complexity': Complexity}
     def __init__(self, constraints):
         self.constraints = constraints
 

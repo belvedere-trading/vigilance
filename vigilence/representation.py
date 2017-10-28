@@ -13,7 +13,6 @@ class Satisfaction(_satisfaction):
     def __new__(cls, satisfied, message=None):
         return super(Satisfaction, cls).__new__(cls, satisfied, message)
 
-
 class QualityItem(object):
     """Represents a single item from a code quality report.
     """
