@@ -3,6 +3,7 @@ constraints:
     type: global
     line: 80
     branch: 80
+    complexity: 0
   -
     type: ignore
     paths:

@@ -1,7 +1,5 @@
-freezegun
 mock
 nose
 nose-exclude
 nose_parameterized
 coverage
-click

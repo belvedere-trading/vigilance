@@ -17,3 +17,4 @@ dist/
 .eggs/
 vigilence.egg-info/
 htmlcov/
+doxygen.err

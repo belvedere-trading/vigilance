@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -xe
 pylint vigilence
 python setup.py coverage
 vigilence coverage.xml --type cobertura

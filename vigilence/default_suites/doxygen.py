@@ -16,7 +16,7 @@ class DocumentationError(QualityItem):
 
     @property
     def identifier(self):
-        return self.metrics
+        return 'documentation failure: {}'.format(self.metrics)
 
 class DoxygenParser(Parser):
     """A Parser implementation for Doxygen error reports.
