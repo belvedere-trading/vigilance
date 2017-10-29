@@ -2,12 +2,18 @@ constraints:
   -
     type: global
     line: 60
+    branch: 80
+    complexity: 10
   -
     type: ignore
     paths:
-      - Hydra/Aether/AetherServer.py
-      - Hydra/HydraInstall.py
+      - path/to/file
+      - path/to/another
   -
     type: file
-    path: Hydra/Internal/HostInformationItems/.*
+    path: path/regex.*
     line: 0
+  -
+    type: package
+    name: package_name
+    branch: 0

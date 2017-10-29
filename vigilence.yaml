@@ -1,0 +1,17 @@
+constraints:
+  -
+    type: global
+    line: 80
+    branch: 80
+  -
+    type: ignore
+    paths:
+      - vigilence/suite.py
+  -
+    type: file
+    path: vigilence/constraint.py
+    branch: 50
+  -
+    type: package
+    name: vigilence
+    branch: 75

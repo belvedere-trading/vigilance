@@ -4,6 +4,11 @@ import sys
 from distutils.cmd import Command
 from setuptools import setup, find_packages
 
+def run_with_exit(command):
+    returnCode = subprocess.call(command)
+    if returnCode:
+        sys.exit(returnCode)
+
 class TestWithCoverage(Command):
     """Runs unit tests along with a test coverage report.
     """
@@ -16,10 +21,9 @@ class TestWithCoverage(Command):
         pass
 
     def run(self):
-        subprocess.call(['coverage', 'run', 'setup.py', 'nosetests'])
-        returnCode = subprocess.call(['coverage', 'report', '-m'])
-        if returnCode:
-            sys.exit(returnCode)
+        run_with_exit(['coverage', 'run', 'setup.py', 'nosetests'])
+        run_with_exit(['coverage', 'report', '-m'])
+        run_with_exit(['coverage', 'xml'])
 
 if __name__ == '__main__':
     thirdPartyPackages = open('required_packages.req').read().splitlines()

@@ -2,7 +2,7 @@
 @file
 Contains the quality suite definitions necessary for code coverage enforcement.
 """
-from logging import getLogger
+import logging
 from StringIO import StringIO
 from xml.etree import ElementTree
 
@@ -12,8 +12,6 @@ from vigilence.error import ReportParsingError
 from vigilence.parser import Parser
 from vigilence.representation import QualityItem, QualityReport, Satisfaction
 from vigilence.suite import QualitySuite
-
-Log = getLogger(__name__)
 
 class TestMetrics(object):
     """Holds data about a previous code quality run (test run, linting, etc).
@@ -34,6 +32,12 @@ class FileUnderTest(QualityItem):
     def identifier(self):
         return 'file {}'.format(self.filePath)
 
+    def __eq__(self, other):
+        return self.filePath == other.filePath
+
+    def __hash__(self):
+        return hash(self.filePath)
+
 class PackageUnderTest(QualityItem):
     """Represents a single package from a test coverage report.
     """
@@ -45,6 +49,12 @@ class PackageUnderTest(QualityItem):
     def identifier(self):
         return 'package {}'.format(self.name)
 
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def __hash__(self):
+        return hash(self.name)
+
 class CoberturaParser(Parser):
     """A Parser implementation for Cobertura-compatible coverage reports.
     For details, please see the Cobertura documentation at http://cobertura.github.io/cobertura/.
@@ -54,7 +64,7 @@ class CoberturaParser(Parser):
         try:
             tree = ElementTree.parse(stream)
         except ElementTree.ParseError:
-            Log.exception('Parsing failed')
+            logging.getLogger(__name__).exception('Parsing failed')
             raise ReportParsingError('Unable to parse Cobertura report as XML')
         classes = [self._xml_class_to_file(cls) for cls in tree.findall('.//class')]
         packages = [self._xml_package_to_package(pkg) for pkg in tree.findall('.//package')]
@@ -65,7 +75,7 @@ class CoberturaParser(Parser):
         try:
             return float(xml.attrib[attr]) * 100
         except (KeyError, ValueError):
-            Log.warn('Failed to find attribute in XML element: %s', attr)
+            logging.getLogger(__name__).warn('Failed to find attribute in XML element: %s', attr)
             return default
 
     @classmethod
@@ -121,7 +131,7 @@ class Complexity(Constraint):
         self.maximumComplexity = maximumComplexity
 
     def satisfied_by(self, item):
-        actual = item.metrics.branchCoverage
+        actual = item.metrics.complexity
         if actual > self.maximumComplexity:
             return Satisfaction(False, 'Complexity too high for {} ({}/{})'.format(item.identifier, actual, self.maximumComplexity))
         return Satisfaction(True)
