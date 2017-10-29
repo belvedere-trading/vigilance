@@ -62,9 +62,9 @@ constraints:
 This is actually the configuration file for the code coverage report of Vigilence itself. In this configuration file, each stanza contains the type of constraint that should be applied to the coverage report in addition to the metrics that should be set on each constraint. This file can be read as a set of four stanzas. In order:
 
 1. Globally, the codebase should have a line coverage of 80%, a branch coverage of 80%, and a complexity score of 0.
-2. The file vigilence/suite.py should be ignored entirely from coverage enforcement.
-3. The file vigilence/constraint.py is required to have a branch coverage of only 50% (rather than the global 80%).
-4. The package vigilence is required to have a branch coverage of only 75% (rather than the global 80%). This stanza is equivalent to setting the global branch coverage constraint to 75%, but has been included as a sort of regression test.
+2. The file `vigilence/suite.py` should be ignored entirely from coverage enforcement.
+3. The file `vigilence/constraint.py` is required to have a branch coverage of only 50% (rather than the global 80%).
+4. The package `vigilence` is required to have a branch coverage of only 75% (rather than the global 80%). This stanza is equivalent to setting the global branch coverage constraint to 75%, but has been included as a sort of regression test.
 
 Configuration file format changes depending on the type of quality report being inspected. For more detail about Vigilence configuration, please see the configuration section below.
 
