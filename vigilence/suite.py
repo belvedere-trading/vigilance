@@ -42,6 +42,7 @@ class QualitySuite(object):
     def add_suite(cls, key, parser, constraints, configurations):
         """Adds a quality suite to the vigilence registry.
         This suite will be available via the vigilence command line utility.
+        @param cls
         @param key The string identifier that should be used to access the quality suite.
         @param parser A vigilence.parser.Parser instance.
         @param constraints A dictionary mapping constraint labels to their corresponding class objects.
