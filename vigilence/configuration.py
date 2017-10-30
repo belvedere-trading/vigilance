@@ -7,8 +7,6 @@ import logging
 import re
 from abc import ABCMeta, abstractmethod
 
-import yaml
-
 from vigilence.constraint import PackageConstraint, FileConstraint, IgnoreFiles, ConstraintSet
 from vigilence.error import ConfigurationParsingError
 
@@ -81,24 +79,14 @@ class ConfigurationParser(object):
         self.stanzas = stanzas
         self.constraintSuite = constraintSuite
 
-    def parse(self, config):
+    def parse(self, constraints):
         """Parses a vigilence configuration file into a constraint set.
-        @param config The string contents of a vigilence config file.
+        @param constraints A dictionary containing constraint configurations.
         @returns A vigilence.constraint.ConstraintSet instance."""
-        try:
-            parsed = yaml.load(config)
-        except yaml.YAMLError:
-            raise ConfigurationParsingError('Vigilence configuration could not be parsed as yaml')
         globalConstraints = []
         otherConstraints = []
-        if 'constraints' not in parsed:
-            raise ConfigurationParsingError('Vigilence configuration must begin with "constraints" key')
-        for entry in parsed['constraints']:
-            try:
-                entryType = entry['type']
-            except KeyError:
-                logging.getLogger(__name__).warning('Skipping malformed constraint stanza; missing "type" key')
-                continue
+        for entry in constraints:
+            entryType = entry['type']
             try:
                 stanza = self.stanzas[entryType]
             except KeyError:

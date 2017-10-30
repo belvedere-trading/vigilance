@@ -17,26 +17,27 @@ class QualitySuite(object):
     5. Configuration stanzas: the configurations necessary for a user to model all of the above in a simple configuration file.
     """
     Suites = {}
-    def __init__(self, parser, constraints, configurations):
+    def __init__(self, suiteType, parser, constraints, configurations):
+        self.suiteType = suiteType
         self.reportParser = parser
         self.constraints = ConstraintSuite(constraints)
         stanzas = {key: config(self.constraints) for key, config in configurations.iteritems()}
         self.configurationParser = ConfigurationParser(stanzas, self.constraints)
 
-    def run(self, configuration, report):
+    def run(self, constraints, report):
         """Runs the quality suite with the provided configuration on the provided quality report.
-        @param configuration The string contents of the vigilence configuration file.
+        @param constraints A dictionary containing the configured constraints for the suite.
         @param report The string contents of the quality report.
         @throws vigilence.error.QualityViolationsDetected
         """
-        constraints = self.configurationParser.parse(configuration)
+        constraints = self.configurationParser.parse(constraints)
         quality = self.reportParser.parse(report)
         dissatisfactions = quality.scrutinize(constraints)
         for failure in dissatisfactions:
             print failure.message
         if dissatisfactions:
             raise QualityViolationsDetected('One or more quality violations detected')
-        print 'Quality validation complete'
+        print 'Quality validation complete for {}'.format(self.suiteType)
 
     @classmethod
     def add_suite(cls, key, parser, constraints, configurations):
@@ -53,7 +54,7 @@ class QualitySuite(object):
         """
         if key in cls.Suites:
             raise ValueError('Quality suite "{}" already exists'.format(key))
-        cls.Suites[key] = QualitySuite(parser, constraints, configurations)
+        cls.Suites[key] = QualitySuite(key, parser, constraints, configurations)
 
     @classmethod
     def available_suites(cls):

@@ -99,30 +99,14 @@ class ConfigurationParserTest(VigilenceTestCase):
         self.filteredMock = mock.MagicMock(spec=ConfigurationStanza, **{'parse.return_value': ['asdf']})
         self.parser = ConfigurationParser({'nicetype': self.filteredMock, 'global': self.globalMock}, self.mockSuite)
 
-    def test_parse_with_malformed_yaml_should_raise_ConfigurationParsingError(self):
-        with self.assertRaises(ConfigurationParsingError) as ctx:
-            self.parser.parse('"badyaml')
-        self.assertEqual('Vigilence configuration could not be parsed as yaml', ctx.exception.message)
-
-    def test_parse_without_constraints_key_should_raise_ConfigurationParsingError(self):
-        with self.assertRaises(ConfigurationParsingError) as ctx:
-            self.parser.parse('wrong: key')
-        self.assertEqual('Vigilence configuration must begin with "constraints" key', ctx.exception.message)
-
-    def test_parse_with_malformed_entry_should_skip_and_log_warning(self):
-        constraintSet = self.parser.parse('{"constraints": [{"notypehere": "mydude"}]}')
-        self.assertEqual([], constraintSet.globalConstraints)
-        self.assertEqual([], constraintSet.filteredConstraints)
-        self.log.warning.assert_called_once_with('Skipping malformed constraint stanza; missing "type" key')
-
     def test_parse_with_unknown_stanza_type_should_skip_and_log_warning(self):
-        constraintSet = self.parser.parse('{"constraints": [{"type": "weirdo"}]}')
+        constraintSet = self.parser.parse([{"type": "weirdo"}])
         self.assertEqual([], constraintSet.globalConstraints)
         self.assertEqual([], constraintSet.filteredConstraints)
         self.log.warning.assert_called_once_with('Skipping malformed constraint stanza; unknown type "%s"', 'weirdo')
 
     def test_parse_should_parse_stanzas(self):
-        constraintSet = self.parser.parse('{"constraints": [{"type": "global"}, {"type": "nicetype"}, {"type": "global"}]}')
+        constraintSet = self.parser.parse([{"type": "global"}, {"type": "nicetype"}, {"type": "global"}])
         self.assertEqual(self.globalMock.parse.return_value, constraintSet.globalConstraints)
         self.assertEqual(['asdf'], constraintSet.filteredConstraints)
         self.log.warning.assert_called_once_with('Skipping duplicate global configuration stanza')

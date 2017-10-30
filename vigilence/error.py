@@ -17,10 +17,16 @@ class ReportParsingError(VigilenceException):
         super(ReportParsingError, self).__init__(message, -2)
 
 class ConfigurationParsingError(VigilenceException):
-    """Raise when the vigilence configuration file contains errors.
+    """Raised when the vigilence configuration file contains errors.
     """
     def __init__(self, message):
         super(ConfigurationParsingError, self).__init__(message, -3)
+
+class UnknownSuite(VigilenceException):
+    """Raised when the user attempts to use a quality suite that has not yet been loaded.
+    """
+    def __init__(self, message):
+        super(UnknownSuite, self).__init__(message, -4)
 
 class QualityViolationsDetected(VigilenceException):
     """Raised when vigilence detects quality violations.
