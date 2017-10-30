@@ -7,7 +7,7 @@ from util import VigilenceTestCase
 class FileUnderTestTest(VigilenceTestCase):
     def setUp(self):
         super(FileUnderTestTest, self).setUp()
-        from vigilence.default_suites.coverage import FileUnderTest
+        from vigilence.default_suites.cobertura import FileUnderTest
         self.item = FileUnderTest('/my/file')
 
     def test_identifier_should_return_human_readable_representation(self):
@@ -16,7 +16,7 @@ class FileUnderTestTest(VigilenceTestCase):
 class PackageUnderTestTest(VigilenceTestCase):
     def setUp(self):
         super(PackageUnderTestTest, self).setUp()
-        from vigilence.default_suites.coverage import PackageUnderTest
+        from vigilence.default_suites.cobertura import PackageUnderTest
         self.item = PackageUnderTest('package_name')
 
     def test_identifier_should_return_human_readable_representation(self):
@@ -27,7 +27,7 @@ class CoberturaParserTest(VigilenceTestCase):
         super(CoberturaParserTest, self).setUp()
         global ReportParsingError, FileUnderTest, PackageUnderTest
         from vigilence.error import ReportParsingError
-        from vigilence.default_suites.coverage import CoberturaParser, FileUnderTest, PackageUnderTest
+        from vigilence.default_suites.cobertura import CoberturaParser, FileUnderTest, PackageUnderTest
         self.parser = CoberturaParser()
 
     def test_parse_with_invalid_xml_should_raise_ReportParsingError(self):
@@ -49,7 +49,7 @@ class CoberturaParserTest(VigilenceTestCase):
 class LineCoverageTest(VigilenceTestCase):
     def setUp(self):
         super(LineCoverageTest, self).setUp()
-        from vigilence.default_suites.coverage import LineCoverage
+        from vigilence.default_suites.cobertura import LineCoverage
         self.constraint = LineCoverage(22)
 
     @parameterized.expand([
@@ -65,7 +65,7 @@ class LineCoverageTest(VigilenceTestCase):
 class BranchCoverageTest(VigilenceTestCase):
     def setUp(self):
         super(BranchCoverageTest, self).setUp()
-        from vigilence.default_suites.coverage import BranchCoverage
+        from vigilence.default_suites.cobertura import BranchCoverage
         self.constraint = BranchCoverage(22)
 
     @parameterized.expand([
@@ -81,7 +81,7 @@ class BranchCoverageTest(VigilenceTestCase):
 class ComplexityText(VigilenceTestCase):
     def setUp(self):
         super(ComplexityText, self).setUp()
-        from vigilence.default_suites.coverage import Complexity
+        from vigilence.default_suites.cobertura import Complexity
         self.constraint = Complexity(10)
 
     @parameterized.expand([

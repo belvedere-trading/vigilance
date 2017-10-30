@@ -8,7 +8,10 @@ from voluptuous import Schema, Required, ALLOW_EXTRA
 from voluptuous.error import Invalid
 
 from vigilence.error import ConfigurationParsingError, UnknownSuite, ReportParsingError
+from vigilence.plugin import get_configured_plugins, load_suites
 from vigilence.suite import QualitySuite
+
+load_suites(get_configured_plugins())
 
 ConfigurationSchema = Schema({Required('suites'): {str:
                                                    Schema({Required('report'): str,
@@ -29,7 +32,7 @@ def main(configFile): #pylint: disable=missing-docstring, invalid-name
         raise ConfigurationParsingError('Invalid configuration schema: {}'.format(ex.message))
     unknownSuites = [suite for suite in suites.iterkeys() if suite not in QualitySuite.available_suites()]
     if unknownSuites:
-        raise UnknownSuite(', '.join(unknownSuites))
+        raise UnknownSuite('Suites were configured but not available: ' + ', '.join(unknownSuites))
     for suiteType, suiteConfig in suites.iteritems():
         suite = QualitySuite.get_suite(suiteType)
         try:

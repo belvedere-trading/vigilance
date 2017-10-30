@@ -1,6 +1,6 @@
 """@ingroup default_suites
 @file
-Contains the quality suite definitions necessary for code coverage enforcement.
+Contains the quality suite definitions necessary for cobertura code coverage enforcement.
 """
 import logging
 from StringIO import StringIO
@@ -10,8 +10,8 @@ from vigilence.configuration import DefaultStanzas
 from vigilence.constraint import Constraint
 from vigilence.error import ReportParsingError
 from vigilence.parser import Parser
+from vigilence.plugin import AbstractPlugin, SuiteComponents
 from vigilence.representation import QualityItem, QualityReport, Satisfaction
-from vigilence.suite import QualitySuite
 
 class TestMetrics(object):
     """Holds data about a previous code quality run (test run, linting, etc).
@@ -136,7 +136,11 @@ class Complexity(Constraint):
             return Satisfaction(False, 'Complexity too high for {} ({}/{})'.format(item.identifier, actual, self.maximumComplexity))
         return Satisfaction(True)
 
-QualitySuite.add_suite('cobertura',
-                       CoberturaParser(),
-                       {'line': LineCoverage, 'branch': BranchCoverage, 'complexity': Complexity},
-                       DefaultStanzas)
+class Default(AbstractPlugin):
+    """The AbstractPlugin implementation for coverage.
+    """
+    def get_suite_components(self):
+        return SuiteComponents('cobertura',
+                               CoberturaParser(),
+                               {'line': LineCoverage, 'branch': BranchCoverage, 'complexity': Complexity},
+                               DefaultStanzas)

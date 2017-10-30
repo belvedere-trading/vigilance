@@ -5,8 +5,8 @@ Contains the quality suite definitions necessary for doxygen enforcement.
 from vigilence.configuration import ConfigurationStanza
 from vigilence.constraint import Constraint
 from vigilence.parser import Parser
+from vigilence.plugin import AbstractPlugin, SuiteComponents
 from vigilence.representation import QualityItem, QualityReport, Satisfaction
-from vigilence.suite import QualitySuite
 
 class DocumentationError(QualityItem):
     """Represents a single documentation error from a Doxygen run.
@@ -38,7 +38,11 @@ class DocumentationStanza(ConfigurationStanza):
     def parse(self, stanza):
         return [Documentation()]
 
-QualitySuite.add_suite('doxygen',
-                       DoxygenParser(),
-                       {'documentation': Documentation},
-                       {'documentation': DocumentationStanza})
+class Default(AbstractPlugin):
+    """The AbstractPlugin implementation for doxygen.
+    """
+    def get_suite_components(self):
+        return SuiteComponents('doxygen',
+                               DoxygenParser(),
+                               {'documentation': Documentation},
+                               {'documentation': DocumentationStanza})
