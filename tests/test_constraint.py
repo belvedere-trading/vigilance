@@ -4,16 +4,16 @@ import re
 from collections import namedtuple
 from nose_parameterized import parameterized
 
-from util import VigilenceTestCase
+from util import VigilanceTestCase
 
 FakePackage = namedtuple('FakePackage', ['name'])
 
-class PackageConstraintTest(VigilenceTestCase):
+class PackageConstraintTest(VigilanceTestCase):
     def setUp(self):
         super(PackageConstraintTest, self).setUp()
-        from vigilence.constraint import Constraint, PackageConstraint
+        from vigilance.constraint import Constraint, PackageConstraint
         self.mockConstraint = mock.MagicMock(spec=Constraint)
-        self.constraint = PackageConstraint(self.mockConstraint, 'vigilence')
+        self.constraint = PackageConstraint(self.mockConstraint, 'vigilance')
 
     @parameterized.expand([
         ('with matching type should return True', str, True),
@@ -28,7 +28,7 @@ class PackageConstraintTest(VigilenceTestCase):
         self.assertEqual('totally satisfied', self.constraint.satisfied_by('thing'))
 
     @parameterized.expand([
-        ('return True when name matches', 'vigilence', True),
+        ('return True when name matches', 'vigilance', True),
         ('return False when name mismatches', 'asdf', False),
         ('return False when no name', None, False)
     ])
@@ -39,10 +39,10 @@ class PackageConstraintTest(VigilenceTestCase):
             item.name = name
         self.assertEqual(expected, self.constraint.applies_to(item))
 
-class FileConstraintTest(VigilenceTestCase):
+class FileConstraintTest(VigilanceTestCase):
     def setUp(self):
         super(FileConstraintTest, self).setUp()
-        from vigilence.constraint import Constraint, FileConstraint
+        from vigilance.constraint import Constraint, FileConstraint
         self.mockConstraint = mock.MagicMock(spec=Constraint)
         self.constraint = FileConstraint(self.mockConstraint, re.compile('Thing.*'))
 
@@ -70,10 +70,10 @@ class FileConstraintTest(VigilenceTestCase):
             item.filePath = pathRegex
         self.assertEqual(expected, self.constraint.applies_to(item))
 
-class IgnoreFilesTest(VigilenceTestCase):
+class IgnoreFilesTest(VigilanceTestCase):
     def setUp(self):
         super(IgnoreFilesTest, self).setUp()
-        from vigilence.constraint import IgnoreFiles
+        from vigilance.constraint import IgnoreFiles
         self.constraint = IgnoreFiles(['one', 'another'])
 
     def test_is_of_type_should_return_True(self):
@@ -95,10 +95,10 @@ class IgnoreFilesTest(VigilenceTestCase):
             item.filePath = filePath
         self.assertEqual(expected, self.constraint.applies_to(item))
 
-class ConstraintSuiteTest(VigilenceTestCase):
+class ConstraintSuiteTest(VigilanceTestCase):
     def setUp(self):
         super(ConstraintSuiteTest, self).setUp()
-        from vigilence.constraint import ConstraintSuite
+        from vigilance.constraint import ConstraintSuite
         self.suite = ConstraintSuite({'label1': 1, 'label2': 2})
 
     def test_all_types_should_return_all_types(self):

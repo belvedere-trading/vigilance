@@ -1,4 +1,4 @@
-"""@defgroup vigilence vigilence
+"""@defgroup vigilance vigilance
 """
 
 import logging

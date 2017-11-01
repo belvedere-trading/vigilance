@@ -1,11 +1,11 @@
-"""@ingroup vigilence
+"""@ingroup vigilance
 @file
 Contains definitions of code coverage constraints.
 """
 import re
 from abc import ABCMeta, abstractmethod
 
-from vigilence.representation import Satisfaction
+from vigilance.representation import Satisfaction
 
 class Constraint(object):
     """Represents a coverage constraint that must be enforced.
@@ -20,8 +20,8 @@ class Constraint(object):
     @abstractmethod
     def satisfied_by(self, item):
         """Returns whether the Constraint is satisfied by some item under coverage.
-        @param item A vigilence.representation.QualityItem instance.
-        @returns A vigilence.representation.Satisfaction instance.
+        @param item A vigilance.representation.QualityItem instance.
+        @returns A vigilance.representation.Satisfaction instance.
         """
         pass
 
@@ -65,7 +65,7 @@ class FileConstraint(Constraint):
         return hasattr(item, 'filePath') and re.search(self.pathRegex, item.filePath) is not None
 
 class IgnoreFiles(Constraint):
-    """A Constraint that causes specified files to be ignored from vigilence entirely.
+    """A Constraint that causes specified files to be ignored from vigilance entirely.
     """
     def __init__(self, paths):
         self.paths = paths
@@ -122,7 +122,7 @@ class ConstraintSet(object):
 
     def constraints_for(self, item):
         """Retrieves all constraints that should be considered for a single item under test.
-        @param item A vigilence.representation.QualityItem instance.
+        @param item A vigilance.representation.QualityItem instance.
         @returns A list of Constraint instances.
         """
         constraints = []

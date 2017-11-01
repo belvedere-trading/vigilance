@@ -2,14 +2,14 @@
 import mock
 import re
 
-from util import VigilenceTestCase
+from util import VigilanceTestCase
 
-class BaseStanzaTest(VigilenceTestCase):
+class BaseStanzaTest(VigilanceTestCase):
     def setUp(self):
         super(BaseStanzaTest, self).setUp()
-        from vigilence.constraint import ConstraintSuite
+        from vigilance.constraint import ConstraintSuite
         self.mockSuite = mock.MagicMock(spec=ConstraintSuite, **{'get_constraint.return_value': lambda label: label})
-        from vigilence.configuration import BaseStanza
+        from vigilance.configuration import BaseStanza
         self.stanza = BaseStanza(self.mockSuite)
 
     def test_parse_with_no_labels_should_return_no_constraints(self):
@@ -20,14 +20,14 @@ class BaseStanzaTest(VigilenceTestCase):
         self.mockSuite.all_labels.return_value = ['neat', 'cool', 'bad', 'good']
         self.assertEqual(['neatvalue', 'coolthing', 'goodguy'], self.stanza.parse({'neat': 'neatvalue', 'cool': 'coolthing', 'good': 'goodguy'}))
 
-class FileStanzaTest(VigilenceTestCase):
+class FileStanzaTest(VigilanceTestCase):
     def setUp(self):
         super(FileStanzaTest, self).setUp()
         global ConfigurationParsingError, FileConstraint
-        from vigilence.error import ConfigurationParsingError
-        from vigilence.constraint import ConstraintSuite, FileConstraint
+        from vigilance.error import ConfigurationParsingError
+        from vigilance.constraint import ConstraintSuite, FileConstraint
         self.mockSuite = mock.MagicMock(spec=ConstraintSuite)
-        from vigilence.configuration import FileStanza
+        from vigilance.configuration import FileStanza
         self.stanza = FileStanza(self.mockSuite)
 
     def test_parse_without_path_key_should_raise_ConfigurationParsingError(self):
@@ -46,14 +46,14 @@ class FileStanzaTest(VigilenceTestCase):
         self.assertTrue(isinstance(result, FileConstraint))
         self.assertEqual('regex', result.pathRegex)
 
-class PackageStanzaTest(VigilenceTestCase):
+class PackageStanzaTest(VigilanceTestCase):
     def setUp(self):
         super(PackageStanzaTest, self).setUp()
         global ConfigurationParsingError, PackageConstraint
-        from vigilence.error import ConfigurationParsingError
-        from vigilence.constraint import ConstraintSuite, PackageConstraint
+        from vigilance.error import ConfigurationParsingError
+        from vigilance.constraint import ConstraintSuite, PackageConstraint
         self.mockSuite = mock.MagicMock(spec=ConstraintSuite)
-        from vigilence.configuration import PackageStanza
+        from vigilance.configuration import PackageStanza
         self.stanza = PackageStanza(self.mockSuite)
 
     def test_parse_without_name_key_should_raise_ConfigurationParsingError(self):
@@ -70,12 +70,12 @@ class PackageStanzaTest(VigilenceTestCase):
         self.assertTrue(isinstance(result, PackageConstraint))
         self.assertEqual('niceman', result.packageName)
 
-class IgnoreStanzaTest(VigilenceTestCase):
+class IgnoreStanzaTest(VigilanceTestCase):
     def setUp(self):
         super(IgnoreStanzaTest, self).setUp()
         global ConfigurationParsingError
-        from vigilence.error import ConfigurationParsingError
-        from vigilence.configuration import IgnoreStanza
+        from vigilance.error import ConfigurationParsingError
+        from vigilance.configuration import IgnoreStanza
         self.stanza = IgnoreStanza(None) # The stanza should not use the suite; using None ensures an error if it does
 
     def test_parse_without_paths_key_should_raise_ConfigurationParsingError(self):
@@ -87,13 +87,13 @@ class IgnoreStanzaTest(VigilenceTestCase):
         self.assertEqual(result.paths, ['one', 'three', 'shoe'])
 
 
-class ConfigurationParserTest(VigilenceTestCase):
+class ConfigurationParserTest(VigilanceTestCase):
     def setUp(self):
         super(ConfigurationParserTest, self).setUp()
         global ConfigurationParsingError
-        from vigilence.error import ConfigurationParsingError
-        from vigilence.configuration import ConfigurationParser, ConfigurationStanza
-        from vigilence.constraint import ConstraintSuite
+        from vigilance.error import ConfigurationParsingError
+        from vigilance.configuration import ConfigurationParser, ConfigurationStanza
+        from vigilance.constraint import ConstraintSuite
         self.mockSuite = mock.MagicMock(spec=ConstraintSuite, **{'group_constraints.side_effect': lambda c: c})
         self.globalMock = mock.MagicMock(spec=ConfigurationStanza)
         self.filteredMock = mock.MagicMock(spec=ConfigurationStanza, **{'parse.return_value': ['asdf']})

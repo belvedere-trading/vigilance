@@ -28,19 +28,19 @@ class TestWithCoverage(Command):
 if __name__ == '__main__':
     thirdPartyPackages = open('required_packages.req').read().splitlines()
     testPackages = open('test_required_packages.req').read().splitlines()
-    consoleScripts = ['vigilence = vigilence.cli:main']
+    consoleScripts = ['vigilance = vigilance.cli:main']
 
-    setup(name='vigilence',
+    setup(name='vigilance',
           version='1.0.0',
           author='Belvedere Trading',
           author_email='jkaye@belvederetrading.com',
           packages=find_packages(),
-          url='http://pypi:28080/simple/Vigilence/',
+          url='http://pypi:28080/simple/Vigilance/',
           description='A utility for enforcing minimum code coverage',
           install_requires=thirdPartyPackages,
           tests_require=testPackages,
           test_loader='nose.loader:TestLoader',
-          test_suite='vigilence',
+          test_suite='vigilance',
           entry_points={
               'console_scripts': consoleScripts
           },

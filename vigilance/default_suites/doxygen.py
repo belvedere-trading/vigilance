@@ -2,11 +2,11 @@
 @file
 Contains the quality suite definitions necessary for doxygen enforcement.
 """
-from vigilence.configuration import ConfigurationStanza
-from vigilence.constraint import Constraint
-from vigilence.parser import Parser
-from vigilence.plugin import AbstractPlugin, SuiteComponents
-from vigilence.representation import QualityItem, QualityReport, Satisfaction
+from vigilance.configuration import ConfigurationStanza
+from vigilance.constraint import Constraint
+from vigilance.parser import Parser
+from vigilance.plugin import AbstractPlugin, SuiteComponents
+from vigilance.representation import QualityItem, QualityReport, Satisfaction
 
 class DocumentationError(QualityItem):
     """Represents a single documentation error from a Doxygen run.

@@ -15,6 +15,6 @@ tests.xml
 build/
 dist/
 .eggs/
-vigilence.egg-info/
+vigilance.egg-info/
 htmlcov/
 doxygen.err

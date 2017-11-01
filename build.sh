@@ -1,5 +1,5 @@
 #!/bin/bash -xe
-pylint vigilence
+pylint vigilance
 python setup.py coverage
 doxygen 2> doxygen.err
-vigilence
+vigilance

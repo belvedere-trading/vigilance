@@ -1,18 +1,18 @@
-"""@ingroup vigilence
+"""@ingroup vigilance
 @file
-Contains functionality for reading Vigilence configurations.
+Contains functionality for reading Vigilance configurations.
 These configurations provide a simple format through which constraints can be applied to coverage reports.
 """
 import logging
 import re
 from abc import ABCMeta, abstractmethod
 
-from vigilence.constraint import PackageConstraint, FileConstraint, IgnoreFiles, ConstraintSet
-from vigilence.error import ConfigurationParsingError
+from vigilance.constraint import PackageConstraint, FileConstraint, IgnoreFiles, ConstraintSet
+from vigilance.error import ConfigurationParsingError
 
 class ConfigurationStanza(object):
-    """Represents a single stanza within a vigilence configuration file.
-    These stanzas exist to easily allow configuration of vigilence constraints that should be applied to a codebase.
+    """Represents a single stanza within a vigilance configuration file.
+    These stanzas exist to easily allow configuration of vigilance constraints that should be applied to a codebase.
     """
     __metaclass__ = ABCMeta
     def __init__(self, suite):
@@ -21,9 +21,9 @@ class ConfigurationStanza(object):
     @abstractmethod
     def parse(self, stanza):
         """Parses a single configuration stanza into its constituent constraints.
-        @param stanza A dictionary (obtained from parsing vigilence configuration YAML).
-        @returns A list of vigilence.constraint.Constraint instances.
-        @throws vigilence.error.ConfigurationParsingError if the configuration stanza cannot be parsed.
+        @param stanza A dictionary (obtained from parsing vigilance configuration YAML).
+        @returns A list of vigilance.constraint.Constraint instances.
+        @throws vigilance.error.ConfigurationParsingError if the configuration stanza cannot be parsed.
         """
         pass
 
@@ -73,16 +73,16 @@ class IgnoreStanza(ConfigurationStanza):
 DefaultStanzas = {'global': BaseStanza, 'file': FileStanza, 'package': PackageStanza, 'ignore': IgnoreStanza}
 
 class ConfigurationParser(object):
-    """Parsers vigilence configuration files based upon an arbitrary set of configuration stanzas.
+    """Parsers vigilance configuration files based upon an arbitrary set of configuration stanzas.
     """
     def __init__(self, stanzas, constraintSuite):
         self.stanzas = stanzas
         self.constraintSuite = constraintSuite
 
     def parse(self, constraints):
-        """Parses a vigilence configuration file into a constraint set.
+        """Parses a vigilance configuration file into a constraint set.
         @param constraints A dictionary containing constraint configurations.
-        @returns A vigilence.constraint.ConstraintSet instance."""
+        @returns A vigilance.constraint.ConstraintSet instance."""
         globalConstraints = []
         otherConstraints = []
         for entry in constraints:

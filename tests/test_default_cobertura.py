@@ -2,32 +2,32 @@
 import mock
 from nose_parameterized import parameterized
 
-from util import VigilenceTestCase
+from util import VigilanceTestCase
 
-class FileUnderTestTest(VigilenceTestCase):
+class FileUnderTestTest(VigilanceTestCase):
     def setUp(self):
         super(FileUnderTestTest, self).setUp()
-        from vigilence.default_suites.cobertura import FileUnderTest
+        from vigilance.default_suites.cobertura import FileUnderTest
         self.item = FileUnderTest('/my/file')
 
     def test_identifier_should_return_human_readable_representation(self):
         self.assertEqual('file /my/file', self.item.identifier)
 
-class PackageUnderTestTest(VigilenceTestCase):
+class PackageUnderTestTest(VigilanceTestCase):
     def setUp(self):
         super(PackageUnderTestTest, self).setUp()
-        from vigilence.default_suites.cobertura import PackageUnderTest
+        from vigilance.default_suites.cobertura import PackageUnderTest
         self.item = PackageUnderTest('package_name')
 
     def test_identifier_should_return_human_readable_representation(self):
         self.assertEqual('package package_name', self.item.identifier)
 
-class CoberturaParserTest(VigilenceTestCase):
+class CoberturaParserTest(VigilanceTestCase):
     def setUp(self):
         super(CoberturaParserTest, self).setUp()
         global ReportParsingError, FileUnderTest, PackageUnderTest
-        from vigilence.error import ReportParsingError
-        from vigilence.default_suites.cobertura import CoberturaParser, FileUnderTest, PackageUnderTest
+        from vigilance.error import ReportParsingError
+        from vigilance.default_suites.cobertura import CoberturaParser, FileUnderTest, PackageUnderTest
         self.parser = CoberturaParser()
 
     def test_parse_with_invalid_xml_should_raise_ReportParsingError(self):
@@ -46,10 +46,10 @@ class CoberturaParserTest(VigilenceTestCase):
         report = self.parser.parse(reportText)
         self.assertEqual([FileUnderTest('asdf'), PackageUnderTest('packman')], report.items)
 
-class LineCoverageTest(VigilenceTestCase):
+class LineCoverageTest(VigilanceTestCase):
     def setUp(self):
         super(LineCoverageTest, self).setUp()
-        from vigilence.default_suites.cobertura import LineCoverage
+        from vigilance.default_suites.cobertura import LineCoverage
         self.constraint = LineCoverage(22)
 
     @parameterized.expand([
@@ -62,10 +62,10 @@ class LineCoverageTest(VigilenceTestCase):
         result = self.constraint.satisfied_by(item)
         self.assertEqual(expected, result.satisfied)
 
-class BranchCoverageTest(VigilenceTestCase):
+class BranchCoverageTest(VigilanceTestCase):
     def setUp(self):
         super(BranchCoverageTest, self).setUp()
-        from vigilence.default_suites.cobertura import BranchCoverage
+        from vigilance.default_suites.cobertura import BranchCoverage
         self.constraint = BranchCoverage(22)
 
     @parameterized.expand([
@@ -78,10 +78,10 @@ class BranchCoverageTest(VigilenceTestCase):
         result = self.constraint.satisfied_by(item)
         self.assertEqual(expected, result.satisfied)
 
-class ComplexityText(VigilenceTestCase):
+class ComplexityText(VigilanceTestCase):
     def setUp(self):
         super(ComplexityText, self).setUp()
-        from vigilence.default_suites.cobertura import Complexity
+        from vigilance.default_suites.cobertura import Complexity
         self.constraint = Complexity(10)
 
     @parameterized.expand([

@@ -1,32 +1,32 @@
 #pylint: skip-file
 import mock
 
-from util import VigilenceTestCase
+from util import VigilanceTestCase
 
-class DocumentationErrorTest(VigilenceTestCase):
+class DocumentationErrorTest(VigilanceTestCase):
     def setUp(self):
         super(DocumentationErrorTest, self).setUp()
-        from vigilence.default_suites.doxygen import DocumentationError
+        from vigilance.default_suites.doxygen import DocumentationError
         self.item = DocumentationError('this was the error')
 
     def test_identifier_should_return_error_message(self):
         self.assertEqual('documentation failure: this was the error', self.item.identifier)
 
-class DoxygenParserTest(VigilenceTestCase):
+class DoxygenParserTest(VigilanceTestCase):
     def setUp(self):
         super(DoxygenParserTest, self).setUp()
-        from vigilence.default_suites.doxygen import DoxygenParser
+        from vigilance.default_suites.doxygen import DoxygenParser
         self.parser = DoxygenParser()
 
     def test_parse_should_return_documentation_error_per_line(self):
         report = self.parser.parse('a\nb\nc\n\n\n')
         self.assertEqual(['a', 'b', 'c'], [item.metrics for item in report.items])
 
-class DocumentationTest(VigilenceTestCase):
+class DocumentationTest(VigilanceTestCase):
     def setUp(self):
         super(DocumentationTest, self).setUp()
         global DocumentationError
-        from vigilence.default_suites.doxygen import Documentation, DocumentationError
+        from vigilance.default_suites.doxygen import Documentation, DocumentationError
         self.constraint = Documentation()
 
     def test_satisfied_by_should_return_False(self):
@@ -34,11 +34,11 @@ class DocumentationTest(VigilenceTestCase):
         self.assertFalse(result.satisfied)
         self.assertEqual('documentation failure: bad', result.message)
 
-class DocumentationStanzaTest(VigilenceTestCase):
+class DocumentationStanzaTest(VigilanceTestCase):
     def setUp(self):
         super(DocumentationStanzaTest, self).setUp()
         global Documentation
-        from vigilence.default_suites.doxygen import DocumentationStanza, Documentation
+        from vigilance.default_suites.doxygen import DocumentationStanza, Documentation
         self.configuration = DocumentationStanza(None)
 
     def test_parse_should_return_single_documentation_constraint(self):

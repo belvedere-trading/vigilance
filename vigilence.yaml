@@ -10,14 +10,14 @@ suites:
       -
         type: ignore
         paths:
-          - vigilence/suite.py
+          - vigilance/suite.py
       -
         type: file
-        path: vigilence/constraint.py
+        path: vigilance/constraint.py
         branch: 50
       -
         type: package
-        name: vigilence
+        name: vigilance
         branch: 75
   doxygen:
     report: doxygen.err

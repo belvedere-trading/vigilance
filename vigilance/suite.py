@@ -1,18 +1,18 @@
-"""@ingroup vigilence
+"""@ingroup vigilance
 @file
-Contains glue that relates all vigilence concepts together into "quality suites".
+Contains glue that relates all vigilance concepts together into "quality suites".
 These suites can be added by users as plugins and selected via the command line.
 """
-from vigilence.configuration import ConfigurationParser
-from vigilence.constraint import ConstraintSuite
-from vigilence.error import QualityViolationsDetected
+from vigilance.configuration import ConfigurationParser
+from vigilance.constraint import ConstraintSuite
+from vigilance.error import QualityViolationsDetected
 
 class QualitySuite(object):
     """Represents a full set of quality metrics that should be enforced upon a codebase.
-    The QualitySuite consists of a combination of the lower-level vigilence concepts:
+    The QualitySuite consists of a combination of the lower-level vigilance concepts:
     1. Metrics: the raw data points that comprise the quality check
     2. Quality items: the individual unit for which metrics are collected (e.g. files, modules, classes, functions, etc.)
-    3. Parsers: the translators that turn raw metrics into vigilence-compatible quality items.
+    3. Parsers: the translators that turn raw metrics into vigilance-compatible quality items.
     4. Constraints: the requirements for the metrics collected for the various quality items in the codebase.
     5. Configuration stanzas: the configurations necessary for a user to model all of the above in a simple configuration file.
     """
@@ -28,7 +28,7 @@ class QualitySuite(object):
         """Runs the quality suite with the provided configuration on the provided quality report.
         @param constraints A dictionary containing the configured constraints for the suite.
         @param report The string contents of the quality report.
-        @throws vigilence.error.QualityViolationsDetected
+        @throws vigilance.error.QualityViolationsDetected
         """
         constraints = self.configurationParser.parse(constraints)
         quality = self.reportParser.parse(report)
@@ -41,16 +41,16 @@ class QualitySuite(object):
 
     @classmethod
     def add_suite(cls, key, parser, constraints, configurations):
-        """Adds a quality suite to the vigilence registry.
-        This suite will be available via the vigilence command line utility.
+        """Adds a quality suite to the vigilance registry.
+        This suite will be available via the vigilance command line utility.
         @param cls
         @param key The string identifier that should be used to access the quality suite.
-        @param parser A vigilence.parser.Parser instance.
+        @param parser A vigilance.parser.Parser instance.
         @param constraints A dictionary mapping constraint labels to their corresponding class objects.
         @param configurations A dictionary mapping configuration keys to the corresponding class objects.
         @throws ValueError if @p key is already in use.
-        @see vigilence.configuration.ConfigurationStanza
-        @see vigilence.constraint.Constraint
+        @see vigilance.configuration.ConfigurationStanza
+        @see vigilance.constraint.Constraint
         """
         if key in cls.Suites:
             raise ValueError('Quality suite "{}" already exists'.format(key))

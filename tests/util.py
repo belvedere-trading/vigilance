@@ -4,7 +4,7 @@ import mock
 
 from unittest import TestCase
 
-class VigilenceTestCase(TestCase):
+class VigilanceTestCase(TestCase):
     @property
     def modulesToPatch(self):
         return {}
@@ -19,4 +19,4 @@ class VigilenceTestCase(TestCase):
     def run(self, result=None):
         with mock.patch.object(logging, 'getLogger', spec=logging.LoggerAdapter) as logger:
             self.log = logger.return_value
-            super(VigilenceTestCase, self).run(result)
+            super(VigilanceTestCase, self).run(result)

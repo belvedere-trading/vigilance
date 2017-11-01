@@ -6,12 +6,12 @@ import logging
 from StringIO import StringIO
 from xml.etree import ElementTree
 
-from vigilence.configuration import DefaultStanzas
-from vigilence.constraint import Constraint
-from vigilence.error import ReportParsingError
-from vigilence.parser import Parser
-from vigilence.plugin import AbstractPlugin, SuiteComponents
-from vigilence.representation import QualityItem, QualityReport, Satisfaction
+from vigilance.configuration import DefaultStanzas
+from vigilance.constraint import Constraint
+from vigilance.error import ReportParsingError
+from vigilance.parser import Parser
+from vigilance.plugin import AbstractPlugin, SuiteComponents
+from vigilance.representation import QualityItem, QualityReport, Satisfaction
 
 class TestMetrics(object):
     """Holds data about a previous code quality run (test run, linting, etc).
