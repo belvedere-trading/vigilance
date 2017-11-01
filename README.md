@@ -30,11 +30,11 @@ Options:
 All of Vigilance's functionality is controlled by the configuration file used by the tool. The configuration file defines:
 
 1. The quality suites that must be verified
-..** Analogous to code quality tools
+   * Analogous to code quality tools
 2. The locations of the quality report for each suite
-..** Contains the actual quality information for the codebase
+   * Contains the actual quality information for the codebase
 3. The associated constraints that should be enforced upon the codebase
-..** The metrics that a codebase must meet
+   * The metrics that a codebase must meet
 
 These concepts will be explained more thoroughly later in the documentation.
 
@@ -197,13 +197,17 @@ suites:
 
 The individual stanzas are the list elements within the "constraints" key. Each stanza has at least a "type" key that defines the type of constraint that it is (within the context of the current plugin). The rest of the keys within each stanza are implementation specific; for this example, "line" and "branch" are minimum coverages (specified as percentages) while "complexity" is a maximum complexity score. Each of these constraints will be applied to the quality items extracted from the quality report based upon the type of its configuration stanza.
 
+#### Standard behavior for constraint filtering
+
+Coming soon.
+
 ## Plugins
 
 All functionality from Vigilance is provided via plugins. Each plugin consists of four components (closely mapped to the concepts defined above) that together form a "quality suite". The suite contains everything that Vigilance requires to do its job:
 
 1. A key. This is the unique name for the plugin that allows Vigilance to interpret the quality report and constraints from its configuration file
 2. A report parser. This parses the textual representation of the quality report into Vigilance quality items
-..** The report's associated quality items
+   * The report's associated quality items
 3. Constraints.
 4. Configuration stanzas.
 
@@ -211,8 +215,8 @@ All functionality from Vigilance is provided via plugins. Each plugin consists o
 
 Vigilance comes with a set of default plugins that are automatically distributed along with its installation. Currently, the default plugins are:
 
-* [Cobertura]()
-* [Doxygen]()
+* [Cobertura](https://github.com/belvedere-trading/vigilance/wiki/Cobertura)
+* [Doxygen](https://github.com/belvedere-trading/vigilance/wiki/Doxygen)
 
 ### Writing a plugin
 
