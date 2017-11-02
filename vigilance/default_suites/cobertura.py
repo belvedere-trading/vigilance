@@ -6,7 +6,7 @@ import logging
 from StringIO import StringIO
 from xml.etree import ElementTree
 
-from vigilance.configuration import DefaultStanzas
+from vigilance.plugin.tooling import DefaultStanzas
 from vigilance.constraint import Constraint
 from vigilance.error import ReportParsingError
 from vigilance.parser import Parser

@@ -18,7 +18,7 @@ suites:
       -
         type: package
         name: vigilance
-        branch: 75
+        branch: 70
   doxygen:
     report: doxygen.err
     constraints:

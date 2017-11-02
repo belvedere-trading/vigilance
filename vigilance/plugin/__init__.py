@@ -1,13 +1,13 @@
-"""@ingroup vigilance
+"""@defgroup plugin plugin
 @file
 Contains functionality for writing Vigilance plugins.
 """
 import importlib
+import logging
 import os
 from abc import ABCMeta, abstractmethod
 from collections import namedtuple
 from ConfigParser import ConfigParser, Error
-from logging import getLogger
 
 from vigilance.suite import QualitySuite
 
@@ -41,7 +41,7 @@ def _read_config_file(filename, parser):
             with open(filename, 'r') as vFile:
                 parser.readfp(vFile)
     except (IOError, Error):
-        getLogger(__name__).warning('Skipping malformed configuration file "%s"', filename)
+        logging.getLogger(__name__).warning('Skipping malformed configuration file "%s"', filename)
 
 def get_configured_plugins():
     """Retrieves a list of all plugins that the user has configured for availability within Vigilance.
@@ -76,16 +76,16 @@ def load_suites(plugins, disableDefaults=False):
         try:
             moduleName, cls = pluginSpecifier.split(':')
         except ValueError:
-            getLogger(__name__).warning('Skipping malformed plugin specifier "%s"', pluginSpecifier)
+            logging.getLogger(__name__).warning('Skipping malformed plugin specifier "%s"', pluginSpecifier)
             continue
         try:
             module = importlib.import_module(moduleName)
         except ImportError:
-            getLogger(__name__).warning('Skipping missing plugin module "%s"', moduleName)
+            logging.getLogger(__name__).warning('Skipping missing plugin module "%s"', moduleName)
             continue
         try:
             plugin = getattr(module, cls)()
         except AttributeError:
-            getLogger(__name__).warning('Skipping missing plugin implementation "%s" within plugin "%s"', cls, moduleName)
+            logging.getLogger(__name__).warning('Skipping missing plugin implementation "%s" within plugin "%s"', cls, moduleName)
             continue
         QualitySuite.add_suite(*plugin.get_suite_components())

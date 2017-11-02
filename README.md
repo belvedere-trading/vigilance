@@ -197,9 +197,7 @@ suites:
 
 The individual stanzas are the list elements within the "constraints" key. Each stanza has at least a "type" key that defines the type of constraint that it is (within the context of the current plugin). The rest of the keys within each stanza are implementation specific; for this example, "line" and "branch" are minimum coverages (specified as percentages) while "complexity" is a maximum complexity score. Each of these constraints will be applied to the quality items extracted from the quality report based upon the type of its configuration stanza.
 
-#### Standard behavior for constraint filtering
-
-Coming soon.
+Please see the [plugin tooling section](#Tooling) for more information about how global/filtered constraints interact with one another.
 
 ## Plugins
 
@@ -231,6 +229,19 @@ Once the Vigilance concepts are well understood, writing a new plugin is fairly 
 Once the above have been defined, the entire quality suite can be assembled by defining a subclass of [AbstractPlugin](https://belvedere-trading.github.io/vigilance/classvigilance_1_1plugin_1_1_abstract_plugin.html). This subclass can then be made available to Vigilance's plugin system once the code is installed into the same Python environment as Vigilance itself.
 
 The source of [the Cobertura plugin](https://github.com/belvedere-trading/vigilance/blob/master/vigilance/default_suites/cobertura.py) is a good place to start for an example of how to write a plugin of your own.
+
+### Tooling
+
+Vigilance contains a set of tools that make writing plugins a bit easier for users of the tool. These tools can be found in the [vigilance.plugin.tooling](https://belvedere-trading.github.io/vigilance/tooling_8py.html) module.
+
+Currently, the tools available are a set of [ConfigurationStanza]() implementations that could be useful to many different types of plugins. The implementations can be broken down into two groups:
+
+1. The global stanza
+2. The filter stanzas
+
+The global stanza (called [BaseStanza]() in the code) is meant to define the global quality metrics that should be applied to the codebase. This is the stanza that parses the "global" configuration key in the example configuration files above. The stanza accepts any constraint labels defined by the plugin's quality suite as keys and uses their corresponding values as the constraints. The filter stanzas share the same parsing functionality as the global stanza (actually, they derive from BaseStanza).
+
+The key to the useful behavior between the filter/global stanzas lies in how the Vigilance enforcer decides which constraints should be applied to any given quality item. For each item, if any filter exists for a single constraint, only the filtered constraint will be applied. This makes it easy to configure many different permutations of quality metrics by defining multiple filters that override only one or two constraints applied to a subset of the codebase.
 
 ### API documentation
 
