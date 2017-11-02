@@ -34,7 +34,7 @@ def get_tagged_version():
         print 'Failed to get tagged version: {}'.format(err)
         sys.exit(process.returncode)
     out = out.strip()
-    if not re.match(out):
+    if not re.match(tag_regex, out):
         print 'Found invalid tag: {}'.format(out)
         sys.exit(-1)
     return out[1:]
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     consoleScripts = ['vigilance = vigilance.cli:main']
 
     setup(name='vigilance',
-          version='1.0.0',
+          version=get_tagged_version(),
           author='Belvedere Trading',
           author_email='jkaye@belvederetrading.com',
           packages=find_packages(),
