@@ -6,10 +6,10 @@ Vigilance is a simple command-line tool meant to ensure code quality metrics are
 
 ## Quickstart
 
-Vigilance can be installed with `pip` from the root of its source directory. The package should be uploaded to pypi soon.
+Vigilance can be installed from PyPi with `pip`.
 
 ```
-pip install . --user
+pip install vigilance
 ```
 
 The tool has a very simple interface:
