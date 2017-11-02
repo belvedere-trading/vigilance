@@ -1,4 +1,5 @@
 #pylint: skip-file
+import re
 import subprocess
 import sys
 from distutils.cmd import Command
@@ -24,6 +25,19 @@ class TestWithCoverage(Command):
         run_with_exit(['coverage', 'run', 'setup.py', 'nosetests'])
         run_with_exit(['coverage', 'report', '-m'])
         run_with_exit(['coverage', 'xml'])
+
+tag_regex = re.compile(r'v\d\.\d\.\d')
+def get_tagged_version():
+    process = subprocess.Popen(['git', 'describe', '--abbrev=0'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = process.communicate()
+    if process.returncode:
+        print 'Failed to get tagged version: {}'.format(err)
+        sys.exit(process.returncode)
+    out = out.strip()
+    if not re.match(out):
+        print 'Found invalid tag: {}'.format(out)
+        sys.exit(-1)
+    return out[1:]
 
 if __name__ == '__main__':
     thirdPartyPackages = open('required_packages.req').read().splitlines()
