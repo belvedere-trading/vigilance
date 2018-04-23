@@ -1,6 +1,7 @@
 #pylint: skip-file
 import logging
 import mock
+from functools import wraps
 
 from unittest import TestCase
 
@@ -20,3 +21,11 @@ class VigilanceTestCase(TestCase):
         with mock.patch.object(logging, 'getLogger', spec=logging.LoggerAdapter) as logger:
             self.log = logger.return_value
             super(VigilanceTestCase, self).run(result)
+
+def mock_decorator(*args, **kwargs):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator

@@ -39,4 +39,4 @@ def main(configFile): #pylint: disable=missing-docstring, invalid-name
             with open(suiteConfig['report'], 'r') as qualityReport:
                 suite.run(suiteConfig['constraints'], qualityReport.read())
         except IOError:
-            raise ReportParsingError('Could not open report "{}" for reading'.format(suite['report']))
+            raise ReportParsingError('Could not open report "{}" for reading'.format(suiteConfig['report']))
