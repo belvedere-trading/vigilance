@@ -25,7 +25,7 @@ def main(configFile): #pylint: disable=missing-docstring, invalid-name
     The default configuration file if no options are passed is vigilance.yaml within the current working directory.
     """
     try:
-        suites = ConfigurationSchema(yaml.load(configFile))['suites']
+        suites = ConfigurationSchema(yaml.full_load(configFile))['suites']
     except yaml.YAMLError:
         raise ConfigurationParsingError('Could not load configuration file as yaml')
     except Invalid as ex:

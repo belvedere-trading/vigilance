@@ -5,7 +5,7 @@ from StringIO import StringIO
 
 from util import VigilanceTestCase, mock_decorator
 
-@mock.patch('yaml.load')
+@mock.patch('yaml.full_load')
 @mock.patch('vigilance.cli.open', create=True)
 class CliTest(VigilanceTestCase):
     @property
