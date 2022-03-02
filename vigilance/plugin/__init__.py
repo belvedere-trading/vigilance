@@ -7,8 +7,9 @@ import logging
 import os
 from abc import ABCMeta, abstractmethod
 from collections import namedtuple
-from ConfigParser import ConfigParser, Error
 
+import six
+from six.moves.configparser import ConfigParser, Error #pylint: disable=import-error, no-name-in-module
 from vigilance.suite import QualitySuite
 
 ## The components necessary to construct a vigilance.suite.QualitySuite instance.
@@ -20,10 +21,10 @@ from vigilance.suite import QualitySuite
 # associated stanza objects (subclasses of vigilance.configuration.ConfigurationStanza).
 SuiteComponents = namedtuple('SuiteComponents', ['key', 'parser', 'constraints', 'configurations'])
 
+@six.add_metaclass(ABCMeta)
 class AbstractPlugin(object):
     """The external entrypoint for Vigilance plugins.
     """
-    __metaclass__ = ABCMeta
     @abstractmethod
     def get_suite_components(self):
         """Returns the components necessary for the registration of a new vigilance.suite.QualitySuite.

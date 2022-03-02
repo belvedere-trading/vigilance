@@ -37,7 +37,7 @@ load-plugins=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=abstract-class-not-used,abstract-class-little-used,unidiomatic-typecheck
+disable=abstract-class-not-used,abstract-class-little-used,unidiomatic-typecheck,unnecessary-pass,useless-object-inheritance
 
 
 [REPORTS]

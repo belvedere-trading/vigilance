@@ -3,6 +3,9 @@
 Contains glue that relates all vigilance concepts together into "quality suites".
 These suites can be added by users as plugins and selected via the command line.
 """
+from __future__ import print_function
+import six
+
 from vigilance.configuration import ConfigurationParser
 from vigilance.constraint import ConstraintSuite
 from vigilance.error import QualityViolationsDetected
@@ -21,7 +24,7 @@ class QualitySuite(object):
         self.suiteType = suiteType
         self.reportParser = parser
         self.constraints = ConstraintSuite(constraints)
-        stanzas = {key: config(self.constraints) for key, config in configurations.iteritems()}
+        stanzas = {key: config(self.constraints) for key, config in six.iteritems(configurations)}
         self.configurationParser = ConfigurationParser(stanzas, self.constraints)
 
     def run(self, constraints, report):
@@ -34,10 +37,10 @@ class QualitySuite(object):
         quality = self.reportParser.parse(report)
         dissatisfactions = quality.scrutinize(constraints)
         for failure in dissatisfactions:
-            print failure.message
+            print(failure.message)
         if dissatisfactions:
             raise QualityViolationsDetected('One or more quality violations detected')
-        print 'Quality validation complete for {}'.format(self.suiteType)
+        print('Quality validation complete for {}'.format(self.suiteType))
 
     @classmethod
     def add_suite(cls, key, parser, constraints, configurations):
@@ -60,7 +63,7 @@ class QualitySuite(object):
     def available_suites(cls):
         """Returns a list of all available quality suite names.
         """
-        return cls.Suites.keys()
+        return list(cls.Suites.keys())
 
     @classmethod
     def get_suite(cls, key):

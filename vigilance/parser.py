@@ -3,12 +3,13 @@
 Contains functionality for reading coverage output and parsing it into the Vigilance internal representation.
 """
 from abc import ABCMeta, abstractmethod
+import six
 
+@six.add_metaclass(ABCMeta)
 class Parser(object):
     """Abstract interface for parsing test coverage output.
     The primary reponsibiliy of a Parser subclass is to convert output files into the Vigilance internal representation.
     """
-    __metaclass__ = ABCMeta
     @abstractmethod
     def parse(self, fileContents):
         """Parses coverage output.

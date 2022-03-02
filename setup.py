@@ -1,5 +1,7 @@
 #pylint: skip-file
+from __future__ import print_function
 import re
+import six
 import subprocess
 import sys
 from distutils.cmd import Command
@@ -30,12 +32,13 @@ tag_regex = re.compile(r'v\d\.\d\.\d')
 def get_tagged_version():
     process = subprocess.Popen(['git', 'describe', '--abbrev=0'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
+    out = six.ensure_text(out)
     if process.returncode:
-        print 'Failed to get tagged version: {}'.format(err)
+        print('Failed to get tagged version: {}'.format(err))
         sys.exit(process.returncode)
     out = out.strip()
     if not re.match(tag_regex, out):
-        print 'Found invalid tag: {}'.format(out)
+        print('Found invalid tag: {}'.format(out))
         sys.exit(-1)
     return out[1:]
 

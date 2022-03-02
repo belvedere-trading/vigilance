@@ -6,13 +6,14 @@ These configurations provide a simple format through which constraints can be ap
 import logging
 from abc import ABCMeta, abstractmethod
 
+import six
 from vigilance.constraint import ConstraintSet
 
+@six.add_metaclass(ABCMeta)
 class ConfigurationStanza(object):
     """Represents a single stanza within a vigilance configuration file.
     These stanzas exist to easily allow configuration of vigilance constraints that should be applied to a codebase.
     """
-    __metaclass__ = ABCMeta
     def __init__(self, suite):
         self.suite = suite
 
