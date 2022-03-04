@@ -3,10 +3,11 @@
 Contains the console API for Vigilance.
 """
 import click
+import six
 import yaml
+
 from voluptuous import Schema, Required, ALLOW_EXTRA
 from voluptuous.error import Invalid
-
 from vigilance.error import ConfigurationParsingError, UnknownSuite, ReportParsingError
 from vigilance.plugin import get_configured_plugins, load_suites
 from vigilance.suite import QualitySuite
@@ -29,11 +30,11 @@ def main(configFile): #pylint: disable=missing-docstring, invalid-name
     except yaml.YAMLError:
         raise ConfigurationParsingError('Could not load configuration file as yaml')
     except Invalid as ex:
-        raise ConfigurationParsingError('Invalid configuration schema: {}'.format(ex.message))
-    unknownSuites = [suite for suite in suites.iterkeys() if suite not in QualitySuite.available_suites()]
+        raise ConfigurationParsingError('Invalid configuration schema: {}'.format(ex.msg))
+    unknownSuites = [suite for suite in six.iterkeys(suites) if suite not in QualitySuite.available_suites()]
     if unknownSuites:
         raise UnknownSuite('Suites were configured but not available: ' + ', '.join(unknownSuites))
-    for suiteType, suiteConfig in suites.iteritems():
+    for suiteType, suiteConfig in six.iteritems(suites):
         suite = QualitySuite.get_suite(suiteType)
         try:
             with open(suiteConfig['report'], 'r') as qualityReport:

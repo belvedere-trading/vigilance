@@ -5,12 +5,13 @@ Contains definitions of code coverage constraints.
 import re
 from abc import ABCMeta, abstractmethod
 
+import six
 from vigilance.representation import Satisfaction
 
+@six.add_metaclass(ABCMeta)
 class Constraint(object):
     """Represents a coverage constraint that must be enforced.
     """
-    __metaclass__ = ABCMeta
 
     def is_of_type(self, constraintType):
         """Returns whether the Constraint is considered to be of a certain constraint type.
@@ -25,7 +26,7 @@ class Constraint(object):
         """
         pass
 
-    def applies_to(self, item): #pylint: disable=unused-argument,no-self-use
+    def applies_to(self, item): #pylint: disable=unused-argument, no-self-use
         """Returns whether the Constraint should be applied to an item under coverage.
         This is useful for allowing specific constraints to be applied to smaller subsets of a codebase.
         @returns A boolean.
@@ -88,12 +89,12 @@ class ConstraintSuite(object):
     def all_types(self):
         """Returns an iterable of all available constraint types.
         """
-        return self.constraints.itervalues()
+        return six.itervalues(self.constraints)
 
     def all_labels(self):
         """Returns an iterable of all available constraint labels.
         """
-        return self.constraints.iterkeys()
+        return six.iterkeys(self.constraints)
 
     def get_constraint(self, label):
         """Returns the constraint associated with a given label.

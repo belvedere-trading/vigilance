@@ -3,9 +3,9 @@
 Contains the quality suite definitions necessary for cobertura code coverage enforcement.
 """
 import logging
-from StringIO import StringIO
 from xml.etree import ElementTree
 
+from six import StringIO
 from vigilance.plugin.tooling import DefaultStanzas
 from vigilance.constraint import Constraint
 from vigilance.error import ReportParsingError
@@ -75,7 +75,7 @@ class CoberturaParser(Parser):
         try:
             return float(xml.attrib[attr]) * 100
         except (KeyError, ValueError):
-            logging.getLogger(__name__).warn('Failed to find attribute in XML element: %s', attr)
+            logging.getLogger(__name__).warning('Failed to find attribute in XML element: %s', attr)
             return default
 
     @classmethod

@@ -11,9 +11,6 @@ from vigilance.representation import QualityItem, QualityReport, Satisfaction
 class DocumentationError(QualityItem):
     """Represents a single documentation error from a Doxygen run.
     """
-    def __init__(self, error): #pylint: disable=useless-super-delegation
-        super(DocumentationError, self).__init__(error)
-
     @property
     def identifier(self):
         return 'documentation failure: {}'.format(self.metrics)

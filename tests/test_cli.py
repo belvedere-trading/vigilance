@@ -1,7 +1,7 @@
 #pylint: skip-file
 import mock
 from nose_parameterized import parameterized
-from StringIO import StringIO
+from six import StringIO
 
 from util import VigilanceTestCase, mock_decorator
 
@@ -57,15 +57,19 @@ class CliTest(VigilanceTestCase):
         self.suite.QualitySuite.get_suite.return_value.run.assert_called_once_with([{'type': 'bob'}], 'reportTxt')
 
     def test_main_suite_runs_for_multiple_suite(self, mockOpen, mockYamlLoad):
-        mockYamlLoad.return_value = {'suites': 
+        mockYamlLoad.return_value = {'suites':
                 {'test': {'report': 'test.txt', 'constraints': [{'type': 'bob'}]},
                  'otherTest': {'report': 'yay.txt', 'constraints': [{'type': 'other'}]},
                  'lastTest': {'report': 'last.txt', 'constraints': [{'type': 'last'}]}}}
         self.suite.QualitySuite.available_suites.return_value = ['test', 'otherTest', 'lastTest']
-        mockOpen.return_value.__enter__.side_effect = [StringIO('testTxt'), StringIO('lastTxt'), StringIO('otherTxt')]
+        mockFileContents = {'test.txt': 'testTxt', 'yay.txt': 'otherTxt', 'last.txt': 'lastTxt'}
+        def mockFileOpen(filename, *_):
+            openMock = mock.MagicMock()
+            openMock.__enter__.return_value = StringIO(mockFileContents[filename])
+            return openMock
+        mockOpen.side_effect = mockFileOpen
         main('file')
-        self.suite.QualitySuite.get_suite.return_value.run.assert_has_calls([
-            mock.call([{'type': 'bob'}], 'testTxt'),
-            mock.call([{'type': 'last'}], 'lastTxt'),
-            mock.call([{'type': 'other'}], 'otherTxt'),
-        ])
+        self.assertEqual(self.suite.QualitySuite.get_suite.return_value.run.call_count, 3)
+        self.suite.QualitySuite.get_suite.return_value.run.assert_any_call([{'type': 'bob'}], 'testTxt')
+        self.suite.QualitySuite.get_suite.return_value.run.assert_any_call([{'type': 'other'}], 'otherTxt')
+        self.suite.QualitySuite.get_suite.return_value.run.assert_any_call([{'type': 'last'}], 'lastTxt')

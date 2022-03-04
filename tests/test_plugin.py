@@ -2,7 +2,7 @@
 import importlib
 import os
 import mock
-from StringIO import StringIO
+from six import StringIO
 
 from util import VigilanceTestCase
 

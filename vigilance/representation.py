@@ -4,6 +4,7 @@ Contains data structures to normalize the representation of code quality metrics
 """
 from abc import ABCMeta, abstractproperty
 from collections import namedtuple
+import six
 
 _satisfaction = namedtuple('_satisfaction', ['satisfied', 'message'])
 
@@ -13,10 +14,10 @@ class Satisfaction(_satisfaction):
     def __new__(cls, satisfied, message=None):
         return super(Satisfaction, cls).__new__(cls, satisfied, message)
 
+@six.add_metaclass(ABCMeta)
 class QualityItem(object):
     """Represents a single item from a code quality report.
     """
-    __metaclass__ = ABCMeta
     def __init__(self, metrics):
         self._metrics = metrics
 
